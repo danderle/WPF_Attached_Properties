@@ -21,17 +21,28 @@ namespace CrypticApp
         public static void DropFileCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             FrameworkElement element = (FrameworkElement)sender;
-
+            element.PreviewDragOver += element_PreviewDragOver;
             element.Drop += Element_DropFile;
+        }
+
+        private static void element_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
         }
 
         private static void Element_DropFile(object sender, DragEventArgs e)
         {
             FrameworkElement element = (FrameworkElement)sender;
-
+            
             ICommand command = GetDropFileCommand(element);
 
             command.Execute(e);
+        }
+
+        private static void element_PreviewDragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            
         }
 
         public static void SetDropFileCommand(UIElement element, ICommand value)
